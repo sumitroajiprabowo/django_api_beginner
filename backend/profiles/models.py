@@ -5,7 +5,7 @@ from django.contrib.auth.models import BaseUserManager
 
 # Create your models here.
 
-class UserProfilesManager(BaseUserManager):
+class UserProfileManager(BaseUserManager):
     """Help Django work with our custom model."""
 
     def create_user(self, email, name, password=None):
@@ -36,31 +36,27 @@ class UserProfilesManager(BaseUserManager):
 
 
 class UserProfiles(AbstractBaseUser, PermissionsMixin):
-    """Respents a user profiles inside our system"""
-
+    """Database model for users in the system"""
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    objects = UserProfilesManager()
+    objects = UserProfileManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
 
     def get_full_name(self):
-        """Used to get a users full name."""
-
+        """Retrieve full name of user"""
         return self.name
 
     def get_short_name(self):
-        """Used to get a users short name."""
-
+        """Retrieve shot name of user"""
         return self.name
 
     def __str__(self):
-        """Django uses this when it needs to convert the object to a string"""
-
+        """Return string representation of our user"""
         return self.email
     
 
